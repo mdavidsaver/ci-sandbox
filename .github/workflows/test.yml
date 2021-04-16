@@ -1,0 +1,12 @@
+name: CI sandbox
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    name: Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: test1
+        runs: ./test1.sh
