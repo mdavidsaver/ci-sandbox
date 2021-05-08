@@ -1,0 +1,12 @@
+name: 'Messing around'
+description: 'some stuff'
+runs:
+  using: 'node12'
+  main: 'doit.js'
+inputs:
+  sh:
+    description: 'Script to execute'
+    required: false
+  timeout:
+    description: 'Max exec time in seconds'
+    required: false

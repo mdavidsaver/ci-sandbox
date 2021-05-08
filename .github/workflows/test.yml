@@ -4,9 +4,41 @@ on: [push, pull_request]
 
 jobs:
   test:
+    name: Test ${{ matrix.image }}
     runs-on: ubuntu-latest
-    name: Test
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ['', null, "centos:7", "centos:8"]
+    env:
+      DOCKER_IMAGE: ${{ matrix.image }}
     steps:
       - uses: actions/checkout@v2
-      - name: test1
-        run: ./test1.sh
+      - uses: ./
+        with:
+          sh: |
+            echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
+            cat /etc/os-release
+      - uses: ./
+        with:
+          sh: |
+            pwd
+            ls
+
+  builtin:
+    name: Test ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ['', null, "centos:7", "centos:8"]
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+            echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
+            cat /etc/os-release
+      - run: |
+            pwd
+            ls
