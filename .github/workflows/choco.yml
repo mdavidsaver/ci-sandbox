@@ -1,0 +1,20 @@
+name: CI sandbox
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    name: Test
+    steps:
+      - uses: actions/checkout@v2
+      - name: test1
+        shell: bash
+        run: |
+            set -x
+            choco install -y -v make
+            type -a make || true
+            type -a perl || true
+            echo "PATH=$PATH"
+            ls -R "C:\\ProgramData\\chocolatey\\lib\\make"
+            ls -R "C:\\ProgramData\\Chocolatey\\bin"
