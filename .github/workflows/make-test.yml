@@ -1,0 +1,31 @@
+name: Make test
+
+on: [push, pull_request]
+
+jobs:
+  windows:
+    name:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - path: "C:\\Strawberry\\c\\bin"
+            exe: gmake
+          - path: "C:\\ProgramData\\Chocolatey\\bin"
+            exe: make
+    steps:
+    - uses: actions/checkout@v3
+    - name: Choco install
+      run: choco install make strawberryperl -y --limitoutput --no-progress
+    - name: Locations
+      shell: bash
+      run: |
+        ls -lh "${{ matrix.path }}"
+    - name: Test
+      shell: cmd
+      run: |
+        set "PATH=${{ matrix.path }}"
+        echo "%PATH%"
+        ${{ matrix.exe }} --version
+        ${{ matrix.exe }} -Otarget -j2
