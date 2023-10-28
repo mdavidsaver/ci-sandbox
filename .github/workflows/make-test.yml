@@ -17,7 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Choco install
-      run: choco install make strawberryperl -y --limitoutput --no-progress
+      run: |
+        choco install make -y --limitoutput --no-progress
+        choco install strawberryperl --version 5.38.0 --force -y --limitoutput --no-progress
     - name: Locations
       shell: bash
       run: |
