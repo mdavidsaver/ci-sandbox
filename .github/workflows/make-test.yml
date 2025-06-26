@@ -9,8 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - shell: bash
-      run: echo "$VCPKG_INSTALLATION_ROOT"
+      run: choco install openssl
     - shell: bash
-      run: vcpkg install 'libevent[openssl]' krb5
-    - shell: bash
-      run: find C:/vcpkg/installed/x64-windows
+      run: find "C:/Program Files/OpenSSL"
