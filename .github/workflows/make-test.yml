@@ -6,28 +6,11 @@ jobs:
   windows:
     name:
     runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - path: "C:\\Strawberry\\c\\bin"
-            exe: gmake
-          - path: "C:\\ProgramData\\Chocolatey\\bin"
-            exe: make
     steps:
-    - uses: actions/checkout@v3
-    - name: Choco install
-      run: |
-        choco install make -y --limitoutput --no-progress
-        choco install strawberryperl --version 5.38.0 --force -y --limitoutput --no-progress
-    - name: Locations
-      shell: bash
-      run: |
-        ls -lh "${{ matrix.path }}"
-    - name: Test
-      shell: cmd
-      run: |
-        set "PATH=${{ matrix.path }}"
-        echo "%PATH%"
-        ${{ matrix.exe }} --version
-        ${{ matrix.exe }} -Otarget -j2
+    - uses: actions/checkout@v4
+    - shell: bash
+      run: echo "$VCPKG_INSTALLATION_ROOT"
+    - shell: bash
+      run: vcpkg install 'libevent[openssl]' krb5
+    - shell: bash
+      run: find C:/vcpkg/installed/x64-windows
