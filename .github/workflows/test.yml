@@ -8,5 +8,6 @@ jobs:
     name: Test
     steps:
       - uses: actions/checkout@v6
-      - name: test1
-        run: python3 inspect.py
+      - name: Find CDB
+        shell: bash
+        run: find 'C:/' -iname 'cdb.exe'
