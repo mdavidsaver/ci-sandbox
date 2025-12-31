@@ -10,6 +10,9 @@ jobs:
       matrix:
         os: ['windows-2019', 'windows-2022', 'windows-2025']
     steps:
+      - uses: actions/checkout@v6
+      - name: Install cdb
+        run: python installcdb.py
       - name: Where
         shell: bash
         run: ls "C:/Program Files (x86)/Windows Kits"/*/Debuggers/*/cdb.exe
@@ -21,6 +24,6 @@ jobs:
       - name: reginfo
         run: >
             python regdump.py
-            Software\Microsoft\Windows NT\CurrentVersion\AeDebug
-            Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug
-            Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+            "Software\Microsoft\Windows NT\CurrentVersion\AeDebug"
+            "Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug"
+            "Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall"

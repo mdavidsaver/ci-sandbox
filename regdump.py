@@ -5,7 +5,7 @@ import winreg
 
 todo = [key.split('\\') for key in sys.argv[1:]]
 
-access = winreg.KEY_READ|winreg.KEY_WRITE|winreg.KEY_WOW64_64KEY
+access = winreg.KEY_READ|winreg.KEY_WOW64_64KEY
 
 while len(todo):
     kl = todo.pop(0)
