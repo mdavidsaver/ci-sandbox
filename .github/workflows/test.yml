@@ -1,12 +1,17 @@
-name: CI sandbox
+name: Test Reusable
 
-on: [push, pull_request]
+on:
+  workflow_call:
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     name: Test
+    strategy:
+        fail-fast: false
+        matrix:
+            os: ["ubuntu-latest", "windows-latest", "macos-latest"]
     steps:
-      - uses: actions/checkout@v2
-      - name: test1
-        runs: ./test1.sh
+      - uses: actions/checkout@v6
+      - name: Hello
+        run: echo ${{ runner.os }}
