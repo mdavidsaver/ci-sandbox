@@ -4,9 +4,48 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     name: Test
     steps:
-      - uses: actions/checkout@v2
-      - name: test1
-        runs: ./test1.sh
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - run: pip install p4p pyepics
+
+      - name: inspect
+        shell: python
+        run: |
+          from ctypes import *
+          def inspect():
+              for name in [None, b'Com.dll', b'pvxs.dll', b'ca.dll']:
+                  print(name, windll.kernel32.GetModuleHandleA(name))
+          inspect()
+          from p4p.client.thread import Context
+          inspect()
+          import epics
+          inspect()
+
+      - name: supported
+        shell: python
+        run: |
+          import ctypes.util
+          print('before', ctypes.util.dllist())
+          from p4p.client.thread import Context
+          print('p4p', ctypes.util.dllist())
+          import epicscorelibs.path.pyepics
+          print('ecl', ctypes.util.dllist())
+          import epics
+          print('pyepics', ctypes.util.dllist())
+
+      - name: boom
+        shell: python
+        run: |
+          import ctypes.util
+          print('before', ctypes.util.dllist())
+          from p4p.client.thread import Context
+          print('p4p', ctypes.util.dllist())
+          import epics
+          print('pyepics', ctypes.util.dllist())
